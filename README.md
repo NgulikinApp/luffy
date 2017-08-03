@@ -1,3 +1,3 @@
 # luffy
 
-Mono Repo for early build Ngulikin Backed Services
+Mono Repository Project for early build Ngulikin API and Services
