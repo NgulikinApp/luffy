@@ -2,3 +2,5 @@ package: github.com/NgulikinApp/luffy
 import:
 - package: github.com/labstack/echo
   version: ^3.2.1
+- package: github.com/elgris/sqrl
+- package: github.com/vektra/mockery
