@@ -8,7 +8,7 @@
     "port": "3306",
     "user": "root",
     "pass": "gama1234",
-    "name": "kurio_publisher"
+    "name": "ngulikin_staging"
   },
   "log": {
     "dir": "./logs"
