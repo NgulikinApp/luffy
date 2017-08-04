@@ -12,30 +12,8 @@ type UserRepository struct {
 	Conn *sql.DB
 }
 
-// Function unmarshall
-func (self *UserRepository) unmarshal(rows *sql.Rows) ([]*user.User, error) {
-	defer rows.Close()
-
-	results := []*user.User{}
-
-	for rows.Next() {
-		var u user.User
-
-		err := rows.Scan(
-			&u.ID,
-			&u.Name,
-		)
-		if err != nil {
-			log.Error(err, u)
-			return results, err
-		}
-		results = append(results, &u)
-	}
-	return results, nil
-}
-
 func (self *UserRepository) GetByID(id int64) (*user.User, error) {
-	query := sq.Select("id, name").From("user")
+	query := sq.Select(`id, username, fullname, DATE_FORMAT(dob, "%Y-%m-%d"), gender, source, activated`).From("user")
 	query.Where("id = ?", id)
 
 	sql, args, _ := query.ToSql()
@@ -59,4 +37,30 @@ func (self *UserRepository) GetByID(id int64) (*user.User, error) {
 	u = result[0]
 
 	return u, err
+}
+
+func (self *UserRepository) unmarshal(rows *sql.Rows) ([]*user.User, error) {
+	defer rows.Close()
+
+	results := []*user.User{}
+
+	for rows.Next() {
+		var u user.User
+
+		err := rows.Scan(
+			&u.ID,
+			&u.Username,
+			&u.Fullname,
+			&u.DOB,
+			&u.Gender,
+			&u.Source,
+			&u.Activated,
+		)
+		if err != nil {
+			log.Error(err, u)
+			return results, err
+		}
+		results = append(results, &u)
+	}
+	return results, nil
 }
