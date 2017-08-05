@@ -23,7 +23,7 @@ func (self *UserHTTPHandler) GetByID(c echo.Context) error {
 	id, err := strconv.ParseInt(queryID, 10, 64)
 
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, &ResponseError{`ID parameter must be integer`})
+		return c.JSON(http.StatusBadRequest, &ResponseError{user.ErrIDParam.Error()})
 	}
 
 	res, err := self.Usecase.GetByID(id)
