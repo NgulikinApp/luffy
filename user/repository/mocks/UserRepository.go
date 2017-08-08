@@ -32,3 +32,26 @@ func (_m *UserRepository) GetByID(id int64) (*user.User, error) {
 
 	return r0, r1
 }
+
+// SignIn provides a mock function with given fields: email, password
+func (_m *UserRepository) SignIn(email string, password string) (*user.User, error) {
+	ret := _m.Called(email, password)
+
+	var r0 *user.User
+	if rf, ok := ret.Get(0).(func(string, string) *user.User); ok {
+		r0 = rf(email, password)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*user.User)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string) error); ok {
+		r1 = rf(email, password)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}

@@ -7,6 +7,7 @@ import (
 
 type UserUsecase interface {
 	GetByID(id int64) (*user.User, error)
+	SignIn(email string, password string) (*user.User, error)
 }
 
 type userUsecase struct {
@@ -15,6 +16,10 @@ type userUsecase struct {
 
 func (self *userUsecase) GetByID(id int64) (*user.User, error) {
 	return self.UserRepository.GetByID(id)
+}
+
+func (self *userUsecase) SignIn(email string, password string) (*user.User, error) {
+	return self.UserRepository.SignIn(email, password)
 }
 
 func NewUserUsecase(r repository.UserRepository) UserUsecase {

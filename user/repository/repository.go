@@ -6,4 +6,5 @@ import (
 
 type UserRepository interface {
 	GetByID(id int64) (*user.User, error)
+	SignIn(email string, password string) (*user.User, error)
 }
