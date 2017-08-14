@@ -37,20 +37,3 @@ func TestUsecaseGetByID(t *testing.T) {
 
 	mockRepo.AssertExpectations(t)
 }
-
-// Test Usecase Get Company Data By ID
-func TestUsecaseSignin(t *testing.T) {
-	mockRepo := new(mocks.UserRepository)
-
-	mockRepo.On("SignIn",
-		mock.AnythingOfType("string"),
-		mock.AnythingOfType("string"),
-	).Return(&mockUser, nil).Once()
-
-	u := usecase.NewUserUsecase(mockRepo)
-	res, err := u.SignIn(`email`, `password`)
-	assert.NotNil(t, res)
-	assert.NoError(t, err)
-
-	mockRepo.AssertExpectations(t)
-}
