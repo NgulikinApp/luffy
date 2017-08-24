@@ -13,6 +13,7 @@ import (
 
 	"github.com/Sirupsen/logrus"
 
+	mware "github.com/NgulikinApp/luffy/middleware"
 	userHandler "github.com/NgulikinApp/luffy/user/delivery/http"
 	uRepo "github.com/NgulikinApp/luffy/user/repository/mysql"
 	uUcase "github.com/NgulikinApp/luffy/user/usecase"
@@ -48,6 +49,7 @@ func main() {
 	defer db.Close()
 
 	e := echo.New()
+	e.Use(mware.SetCORS())
 
 	e.GET(`/ping`, func(c echo.Context) error {
 		return c.String(http.StatusOK, `pong`)
