@@ -23,5 +23,7 @@ import:
 - package: github.com/evanphx/json-patch
 - package: github.com/go-playground/universal-translator
   version: ^0.16.0
+- package: github.com/dgrijalva/jwt-go
+  version: ^3.0.0
 testImport:
 - package: github.com/pkg/errors
