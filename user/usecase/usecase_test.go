@@ -12,8 +12,13 @@ import (
 
 var (
 	mockUser = user.User{
-		ID:   1,
-		Name: `User Name`,
+		ID:        1,
+		Username:  `my-username`,
+		Fullname:  `my-fullname`,
+		DOB:       `2017-01-01`,
+		Gender:    `male`,
+		Source:    `web`,
+		Activated: true,
 	}
 )
 
