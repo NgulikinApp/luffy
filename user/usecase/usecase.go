@@ -7,6 +7,7 @@ import (
 
 type Usecase interface {
 	GetByID(id int64) (*user.User, error)
+	Store(usr *user.User) error
 }
 
 type usecase struct {
@@ -15,6 +16,10 @@ type usecase struct {
 
 func (u *usecase) GetByID(id int64) (*user.User, error) {
 	return u.repo.GetByID(id)
+}
+
+func (u *usecase) Store(usr *user.User) error {
+	return u.repo.Store(usr)
 }
 
 func NewUsecase(r repository.Repository) Usecase {

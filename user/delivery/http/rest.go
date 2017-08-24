@@ -38,8 +38,33 @@ func (h *HTTPHandler) GetByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
+func (h *HTTPHandler) Store(c echo.Context) error {
+	usr := user.User{}
+	if err := c.Bind(&usr); err != nil {
+		return c.JSON(http.StatusUnprocessableEntity, &ResponseError{err.Error()})
+	}
+
+	if err := h.Usecase.Store(&usr); err != nil {
+		var status int
+
+		switch err.(type) {
+		case user.ErrRequired:
+			status = http.StatusUnprocessableEntity
+		case user.ErrAlreadyExists:
+			status = http.StatusConflict
+		default:
+			status = http.StatusInternalServerError
+		}
+
+		return c.JSON(status, &ResponseError{err.Error()})
+	}
+
+	return c.JSON(http.StatusCreated, usr)
+}
+
 func Init(e *echo.Echo, u usecase.Usecase) {
 	handler := HTTPHandler{u}
 
 	e.GET("/user/:id", handler.GetByID)
+	e.POST("/user", handler.Store)
 }

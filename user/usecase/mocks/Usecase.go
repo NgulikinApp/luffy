@@ -32,3 +32,17 @@ func (_m *Usecase) GetByID(id int64) (*user.User, error) {
 
 	return r0, r1
 }
+
+// Store provides a mock function with given fields: usr
+func (_m *Usecase) Store(usr *user.User) error {
+	ret := _m.Called(usr)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(*user.User) error); ok {
+		r0 = rf(usr)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}

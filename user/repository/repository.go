@@ -6,4 +6,5 @@ import (
 
 type Repository interface {
 	GetByID(id int64) (*user.User, error)
+	Store(usr *user.User) error
 }
