@@ -4,6 +4,6 @@ import (
 	"github.com/NgulikinApp/luffy/user"
 )
 
-type UserRepository interface {
+type Repository interface {
 	GetByID(id int64) (*user.User, error)
 }

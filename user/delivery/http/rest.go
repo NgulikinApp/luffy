@@ -14,11 +14,11 @@ type ResponseError struct {
 	Message string `json:"message"`
 }
 
-type UserHTTPHandler struct {
-	Usecase usecase.UserUsecase
+type HTTPHandler struct {
+	Usecase usecase.Usecase
 }
 
-func (self *UserHTTPHandler) GetByID(c echo.Context) error {
+func (h *HTTPHandler) GetByID(c echo.Context) error {
 	queryID := c.Param(`id`)
 	id, err := strconv.ParseInt(queryID, 10, 64)
 
@@ -26,7 +26,7 @@ func (self *UserHTTPHandler) GetByID(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, &ResponseError{user.ErrIDParam.Error()})
 	}
 
-	res, err := self.Usecase.GetByID(id)
+	res, err := h.Usecase.GetByID(id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, &ResponseError{err.Error()})
 	}
@@ -38,8 +38,8 @@ func (self *UserHTTPHandler) GetByID(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func Init(e *echo.Echo, u usecase.UserUsecase) {
-	handler := UserHTTPHandler{u}
+func Init(e *echo.Echo, u usecase.Usecase) {
+	handler := HTTPHandler{u}
 
 	e.GET("/user/:id", handler.GetByID)
 }

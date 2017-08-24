@@ -15,8 +15,8 @@ import (
 
 	mware "github.com/NgulikinApp/luffy/middleware"
 	userHandler "github.com/NgulikinApp/luffy/user/delivery/http"
-	uRepo "github.com/NgulikinApp/luffy/user/repository/mysql"
-	uUcase "github.com/NgulikinApp/luffy/user/usecase"
+	userRepo "github.com/NgulikinApp/luffy/user/repository/mysql"
+	userUcase "github.com/NgulikinApp/luffy/user/usecase"
 )
 
 var config cfg.Config
@@ -55,9 +55,9 @@ func main() {
 		return c.String(http.StatusOK, `pong`)
 	})
 
-	userRepository := new(uRepo.UserRepository)
+	userRepository := new(userRepo.MySQLRepository)
 	userRepository.Conn = db
-	userUsecase := uUcase.NewUserUsecase(userRepository)
+	userUsecase := userUcase.NewUsecase(userRepository)
 	userHandler.Init(e, userUsecase)
 
 	address := config.GetString(`server.address`)

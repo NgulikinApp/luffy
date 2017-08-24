@@ -27,8 +27,8 @@ var (
 
 func TestHandlerGetByID(t *testing.T) {
 	mockUser := userData
-	mockUserUcase := new(mocks.UserUsecase)
-	mockUserUcase.On("GetByID",
+	mockUcase := new(mocks.Usecase)
+	mockUcase.On("GetByID",
 		mock.AnythingOfType("int64"),
 	).Return(&mockUser, nil).Once()
 
@@ -41,18 +41,18 @@ func TestHandlerGetByID(t *testing.T) {
 	c.SetParamNames(`id`)
 	c.SetParamValues(`1`)
 
-	h := new(handler.UserHTTPHandler)
-	h.Usecase = mockUserUcase
+	h := new(handler.HTTPHandler)
+	h.Usecase = mockUcase
 
 	if assert.NoError(t, h.GetByID(c)) {
 		assert.Equal(t, http.StatusOK, rec.Code)
 	}
-	mockUserUcase.AssertExpectations(t)
+	mockUcase.AssertExpectations(t)
 }
 
 func TestHandlerGetByIDNotFound(t *testing.T) {
-	mockUserUcase := new(mocks.UserUsecase)
-	mockUserUcase.On("GetByID",
+	mockUcase := new(mocks.Usecase)
+	mockUcase.On("GetByID",
 		mock.AnythingOfType("int64"),
 	).Return(nil, nil).Once()
 
@@ -65,18 +65,18 @@ func TestHandlerGetByIDNotFound(t *testing.T) {
 	c.SetParamNames(`id`)
 	c.SetParamValues(`10`)
 
-	h := new(handler.UserHTTPHandler)
-	h.Usecase = mockUserUcase
+	h := new(handler.HTTPHandler)
+	h.Usecase = mockUcase
 
 	if assert.NoError(t, h.GetByID(c)) {
 		assert.Equal(t, http.StatusNotFound, rec.Code)
 	}
-	mockUserUcase.AssertExpectations(t)
+	mockUcase.AssertExpectations(t)
 }
 
 func TestHandlerGetByIDBadParam(t *testing.T) {
-	mockUserUcase := new(mocks.UserUsecase)
-	mockUserUcase.On("GetByID",
+	mockUcase := new(mocks.Usecase)
+	mockUcase.On("GetByID",
 		mock.AnythingOfType("int64"),
 	).Return(nil, nil)
 
@@ -89,18 +89,18 @@ func TestHandlerGetByIDBadParam(t *testing.T) {
 	c.SetParamNames(`id`)
 	c.SetParamValues(`a`)
 
-	h := new(handler.UserHTTPHandler)
-	h.Usecase = mockUserUcase
+	h := new(handler.HTTPHandler)
+	h.Usecase = mockUcase
 
 	if assert.NoError(t, h.GetByID(c)) {
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
 	}
-	mockUserUcase.AssertNotCalled(t, `GetByID`, int64(1))
+	mockUcase.AssertNotCalled(t, `GetByID`, int64(1))
 }
 
 func TestHandlerGetByIDError(t *testing.T) {
-	mockUserUcase := new(mocks.UserUsecase)
-	mockUserUcase.On("GetByID",
+	mockUcase := new(mocks.Usecase)
+	mockUcase.On("GetByID",
 		mock.AnythingOfType("int64"),
 	).Return(nil, errors.New(`Error`)).Once()
 
@@ -113,13 +113,13 @@ func TestHandlerGetByIDError(t *testing.T) {
 	c.SetParamNames(`id`)
 	c.SetParamValues(`1`)
 
-	h := new(handler.UserHTTPHandler)
-	h.Usecase = mockUserUcase
+	h := new(handler.HTTPHandler)
+	h.Usecase = mockUcase
 
 	if assert.NoError(t, h.GetByID(c)) {
 		assert.Equal(t, http.StatusInternalServerError, rec.Code)
 	}
-	mockUserUcase.AssertExpectations(t)
+	mockUcase.AssertExpectations(t)
 }
 
 /*

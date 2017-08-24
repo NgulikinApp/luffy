@@ -12,20 +12,20 @@ import (
 
 var (
 	mockUser = user.User{
-		ID:   1,
-		Name: `User Name`,
+		ID:       1,
+		Username: `User Name`,
 	}
 )
 
 // Test Usecase Get Company Data By ID
 func TestUsecaseGetByID(t *testing.T) {
-	mockRepo := new(mocks.UserRepository)
+	mockRepo := new(mocks.Repository)
 
 	mockRepo.On("GetByID",
 		mock.AnythingOfType("int64"),
 	).Return(&mockUser, nil).Once()
 
-	u := usecase.NewUserUsecase(mockRepo)
+	u := usecase.NewUsecase(mockRepo)
 	res, err := u.GetByID(mockUser.ID)
 	assert.NotNil(t, res)
 	assert.NoError(t, err)

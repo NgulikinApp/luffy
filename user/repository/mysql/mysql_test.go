@@ -45,12 +45,12 @@ func TestMySQLSuite(t *testing.T) {
 	suite.Run(t, new(MySQLTest))
 }
 
-func (self *MySQLTest) seedSimpleUser(u user.User) {
+func (m *MySQLTest) seedSimpleUser(u user.User) {
 	query := "INSERT INTO `user` (`username`, `fullname`, `dob`, `gender`, `source`, `activated`) " +
 		"VALUES (?, ?, ?, ?, ?, ?)"
 
-	preparedQuery, err := self.DBConn.Prepare(query)
-	assert.NoError(self.T(), err)
+	preparedQuery, err := m.DBConn.Prepare(query)
+	assert.NoError(m.T(), err)
 	defer preparedQuery.Close()
 
 	_, insertError := preparedQuery.Exec(
@@ -61,25 +61,25 @@ func (self *MySQLTest) seedSimpleUser(u user.User) {
 		u.Source,
 		u.Activated,
 	)
-	assert.NoError(self.T(), insertError)
+	assert.NoError(m.T(), insertError)
 }
 
-func (self *MySQLTest) TestGetByID() {
+func (m *MySQLTest) TestGetByID() {
 	mockUser := userData
-	self.seedSimpleUser(mockUser)
-	repo := mysql.UserRepository{self.DBConn}
+	m.seedSimpleUser(mockUser)
+	repo := mysql.MySQLRepository{m.DBConn}
 	res, err := repo.GetByID(int64(1))
 
-	assert.NotNil(self.T(), res)
-	assert.NoError(self.T(), err)
+	assert.NotNil(m.T(), res)
+	assert.NoError(m.T(), err)
 }
 
-func (self *MySQLTest) TestGetByIDNotFound() {
+func (m *MySQLTest) TestGetByIDNotFound() {
 	mockUser := userData
-	self.seedSimpleUser(mockUser)
-	repo := mysql.UserRepository{self.DBConn}
+	m.seedSimpleUser(mockUser)
+	repo := mysql.MySQLRepository{m.DBConn}
 	res, err := repo.GetByID(int64(2))
 
-	assert.Nil(self.T(), res)
-	assert.NoError(self.T(), err)
+	assert.Nil(m.T(), res)
+	assert.NoError(m.T(), err)
 }

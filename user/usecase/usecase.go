@@ -5,18 +5,18 @@ import (
 	"github.com/NgulikinApp/luffy/user/repository"
 )
 
-type UserUsecase interface {
+type Usecase interface {
 	GetByID(id int64) (*user.User, error)
 }
 
-type userUsecase struct {
-	UserRepository repository.UserRepository
+type usecase struct {
+	repo repository.Repository
 }
 
-func (self *userUsecase) GetByID(id int64) (*user.User, error) {
-	return self.UserRepository.GetByID(id)
+func (u *usecase) GetByID(id int64) (*user.User, error) {
+	return u.repo.GetByID(id)
 }
 
-func NewUserUsecase(r repository.UserRepository) UserUsecase {
-	return &userUsecase{r}
+func NewUsecase(r repository.Repository) Usecase {
+	return &usecase{r}
 }
