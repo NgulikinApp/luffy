@@ -52,7 +52,7 @@ func main() {
 	e.Use(mware.SetCORS())
 
 	e.GET(`/ping`, func(c echo.Context) error {
-		return c.String(http.StatusOK, `pong`)
+		return c.String(http.StatusOK, `kapan soft launch?`)
 	})
 
 	userRepository := new(userRepo.MySQLRepository)
