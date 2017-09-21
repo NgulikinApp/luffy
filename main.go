@@ -17,6 +17,10 @@ import (
 	userHandler "github.com/NgulikinApp/luffy/user/delivery/http"
 	userRepo "github.com/NgulikinApp/luffy/user/repository/mysql"
 	userUcase "github.com/NgulikinApp/luffy/user/usecase"
+
+	categoryHandler "github.com/NgulikinApp/luffy/category/delivery/http"
+	categoryRepo "github.com/NgulikinApp/luffy/category/repository/mysql"
+	categoryUcase "github.com/NgulikinApp/luffy/category/usecase"
 )
 
 var config cfg.Config
@@ -59,6 +63,11 @@ func main() {
 	userRepository.Conn = db
 	userUsecase := userUcase.NewUsecase(userRepository)
 	userHandler.Init(e, userUsecase)
+
+	categoryRepository := new(categoryRepo.MySQLRepository)
+	categoryRepository.Conn = db
+	categoryUsecase := categoryUcase.NewUsecase(categoryRepository)
+	categoryHandler.Init(e, categoryUsecase)
 
 	address := config.GetString(`server.address`)
 	logrus.Infof(`Luffy server running at address : %v`, address)
