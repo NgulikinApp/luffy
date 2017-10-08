@@ -2,3 +2,4 @@ config.json
 vendor/
 luffy
 luffy.pem
+coverage.txt

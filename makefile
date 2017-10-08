@@ -1,22 +1,12 @@
 BINARY=luffy
-FORMAT=go fmt $$(go list ./... | grep -v /vendor/)
-TESTS=go test $$(go list ./... | grep -v /vendor/) -race -cover
 
-build:
-	${FORMAT}
-	${TESTS}
+build: test
 	go build -o ${BINARY}
 
-install:
-	${FORMAT}
-	${TESTS}
-	go build -o ${BINARY}
+test:
+	./test-cover.sh
 
 unittest:
 	go test -short $$(go list ./... | grep -v /vendor/)
 
-
-clean:
-	if [ -f ${BINARY} ] ; then rm ${BINARY} ; fi
-
-.PHONY: clean install unittest
+.PHONY: unittest test
