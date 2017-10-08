@@ -3,3 +3,4 @@ vendor/
 luffy
 luffy.pem
 coverage.txt
+.DS_Store
