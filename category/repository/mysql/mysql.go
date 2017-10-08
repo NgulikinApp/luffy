@@ -13,7 +13,7 @@ type MySQLRepository struct {
 }
 
 func (m *MySQLRepository) Fetch(num int64, cursor int64) ([]*category.Category, error) {
-	query := sq.Select(`id, name`).From(`category`).Limit(uint64(num)).Offset(uint64(cursor))
+	query := sq.Select(`id, name, thumbnail_url`).From(`category`).Limit(uint64(num)).Offset(uint64(cursor))
 
 	sql, args, _ := query.ToSql()
 
@@ -47,6 +47,7 @@ func (m *MySQLRepository) unmarshal(rows *sql.Rows) ([]*category.Category, error
 		err := rows.Scan(
 			&cat.ID,
 			&cat.Name,
+			&cat.ThumbnailURL,
 		)
 		if err != nil {
 			log.Error(err, cat)
