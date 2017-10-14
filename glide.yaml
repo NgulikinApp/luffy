@@ -25,5 +25,6 @@ import:
   version: ^0.16.0
 - package: github.com/dgrijalva/jwt-go
   version: ^3.0.0
+- package: gopkg.in/mgo.v2
 testImport:
 - package: github.com/pkg/errors
